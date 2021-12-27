@@ -25,7 +25,7 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api", function(req,res){
+app.get("/api/", function(req,res){
   var now = new Date();
   res.json({
     "unix": now.getTime(),
@@ -46,6 +46,7 @@ app.get("/api/:date_string", function(req, res){
     });
   }
   let passedInValue = new Date(dateString);
+
   if (passedInValue == "Invalid Date"){
     res.json({ "error" : "Invalid Date" });
   }
