@@ -36,8 +36,8 @@ app.get("/api/:date_string", function(req, res){
   }
   else {
     res.json({
-      "unix": passedInValue.getTime();
-      "utc": passedInValue.toUTCString();
+      "unix": passedInValue.getTime(),
+      "utc": passedInValue.toUTCString()
     })
   }
 });
