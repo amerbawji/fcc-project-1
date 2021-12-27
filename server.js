@@ -40,7 +40,7 @@ app.get("/api/:date_string", function(req, res){
   
   if(parseInt(dateString)>10000){
     let unixTime= new Date(parseInt(dateString));
-    es.json({
+    res.json({
       "unix": unixTime.getTime(),
       "utc": unixTime.toUTCString()
     });
