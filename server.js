@@ -94,8 +94,8 @@ var ShortURL = mongoose.model('ShortURL', new mongoose.Schema({
   suffix: String
 }));
 
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
 app.post("/api/shorturl/", function(req,res){
   let client_requested_url = req.body.url
@@ -107,7 +107,7 @@ app.post("/api/shorturl/", function(req,res){
     short_url: __dirname + "/api/shorturl" + suffix,
     original_url: client_requested_url,
     suffix: suffix
-  })
+  });
   newURL.save( function(err, doc){
     if (err) return console.error(err);
     console.log("successfully saved!");
