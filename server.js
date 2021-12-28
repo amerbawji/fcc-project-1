@@ -88,41 +88,44 @@ app.get("/api/whoami", function(req,res){
   });
 
 
+// Build a schema and model to store saved URLS
 var ShortURL = mongoose.model('ShortURL', new mongoose.Schema({
   short_url: String,
   original_url: String,
   suffix: String
 }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-
-app.post("/api/shorturl/", function(req,res){
+app.post("/api/shorturl/", (req, res) => {
   let client_requested_url = req.body.url
+
   let suffix = shortid.generate();
   let newShortURL = suffix
-  console.log(suffix, "<= this will be our suffix");
 
   let newURL = new ShortURL({
-    short_url: __dirname + "/api/shorturl" + suffix,
+    short_url: __dirname + "/api/shorturl/" + suffix,
     original_url: client_requested_url,
     suffix: suffix
-  });
-  newURL.save( function(err, doc){
+  })
+
+  newURL.save((err, doc) => {
     if (err) return console.error(err);
-    console.log("successfully saved!");
     res.json({
       "saved": true,
       "short_url": newURL.short_url,
-      "original-url": newURL.original_url,
+      "orignal_url": newURL.original_url,
       "suffix": newURL.suffix
     });
   });
 });
 
-app.get("/api/shorturl/:suffix", function(req,res){
+
+app.get("/api/shorturl/:suffix", (req, res) => {
   let userGeneratedSuffix = req.params.suffix;
-  ShortURL.find({suffix: userGeneratedSuffix}).then(function(foundUrls){
+  ShortURL.find({suffix: userGeneratedSuffix}).then(foundUrls => {
     let urlForRedirect = foundUrls[0];
     res.redirect(urlForRedirect.original_url);
   });
