@@ -19,6 +19,9 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/api/whoami", function (req, res) {
+  res.sendFile(__dirname + '/views/whoami.html');
+});
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
@@ -45,6 +48,7 @@ app.get("/api/:date_string", function(req, res){
       "utc": unixTime.toUTCString()
     });
   }
+
   let passedInValue = new Date(dateString);
 
   if (passedInValue == "Invalid Date"){
@@ -57,6 +61,12 @@ app.get("/api/:date_string", function(req, res){
     })
   }
 });
+
+app.get("/api/whoami", function(req,res){
+    res.json({
+      "value": req
+    });
+  });
 
 // listen for requests :)
 var listener = app.listen(port, function () {
